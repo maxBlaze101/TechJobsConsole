@@ -54,7 +54,7 @@ namespace TechJobsConsole
                     // How does the user want to search (e.g. by skill or employer)
                     string columnChoice = GetUserSelection("Search", columnChoices);
 
-                    // What is their search term?
+                    // What is search term?
 
 
                     Console.WriteLine("\nSearch term: ");

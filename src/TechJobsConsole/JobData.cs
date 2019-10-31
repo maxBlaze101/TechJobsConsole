@@ -13,7 +13,9 @@ namespace TechJobsConsole
         public static List<Dictionary<string, string>> FindAll()
         {
             LoadData();
-            return AllJobs;
+
+            // Bonus mission: return a copy
+            return new List<Dictionary<string, string>>(AllJobs);
         }
 
         /*
@@ -35,9 +37,49 @@ namespace TechJobsConsole
                     values.Add(aValue);
                 }
             }
+
+            // Bonus mission: sort results alphabetically
+            values.Sort();
             return values;
         }
 
+        /**
+         * Search all columns for the given term
+         */
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+
+                foreach (string key in row.Keys)
+                {
+                    string aValue = row[key];
+
+                    if (aValue.ToLower().Contains(value.ToLower()))
+                    {
+                        jobs.Add(row);
+
+                        // Finding one field in a job that matches is sufficient
+                        break;
+                    }
+                }
+            }
+
+            return jobs;
+        }
+
+        /**
+         * Returns results of search the jobs data by key/value, using
+         * inclusion of the search term.
+         *
+         * For example, searching for employer "Enterprise" will include results
+         * with "Enterprise Holdings, Inc".
+         */
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -49,7 +91,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
@@ -139,4 +181,5 @@ namespace TechJobsConsole
             return rowValues.ToArray();
         }
     }
+
 }
